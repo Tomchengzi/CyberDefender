@@ -439,12 +439,6 @@ function showResults() {
     // 添加动画效果
     resultsContainer.classList.add('fade-in');
     
-    // 创建分享按钮
-    const shareBtn = document.createElement('button');
-    shareBtn.className = 'btn secondary-btn share-btn';
-    shareBtn.innerHTML = '<i class="fas fa-share-alt"></i> 分享结果';
-    shareBtn.addEventListener('click', shareResults);
-    
     // 添加到结果操作区域
     const resultsActions = document.querySelector('.results-actions');
     if (!document.querySelector('.share-btn')) {
@@ -452,38 +446,6 @@ function showResults() {
     }
 }
 
-// 分享结果
-function shareResults() {
-    const text = `我在网络安全知识测试中获得了${score}分！来挑战一下吧！`;
-    
-    if (navigator.share) {
-        navigator.share({
-            title: '网络安全知识测试结果',
-            text: text,
-            url: window.location.href
-        })
-        .catch(error => {
-            console.log('分享失败:', error);
-            fallbackShare(text);
-        });
-    } else {
-        fallbackShare(text);
-    }
-}
-
-// 备用分享方法
-function fallbackShare(text) {
-    // 创建临时输入框
-    const input = document.createElement('input');
-    input.value = text + ' ' + window.location.href;
-    document.body.appendChild(input);
-    input.select();
-    document.execCommand('copy');
-    document.body.removeChild(input);
-    
-    // 显示提示
-    alert('分享文本已复制到剪贴板！');
-}
 
 // 重新开始测试
 function restartQuiz() {
