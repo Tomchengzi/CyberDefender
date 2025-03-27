@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网络安全知识测试</title>
+    <!-- 预加载关键CSS -->
+    <link rel="preload" href="css/styles.css" as="style">
+    <!-- 预加载字体图标 -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style">
+    <!-- 预加载JavaScript -->
+    <link rel="preload" href="js/questions.js" as="script">
+    <link rel="preload" href="js/quiz.js" as="script">
+    
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- 添加Google字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <i class="fas fa-shield-alt"></i>
+            <h1>网络安全知识测试</h1>
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="quiz-container">
+            <!-- 欢迎屏幕 -->
+            <div id="welcome-screen">
+                <div class="welcome-banner">
+                    <div class="welcome-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h2>测试你的网络安全知识</h2>
+                    <p class="welcome-subtitle">挑战自我，提升安全意识</p>
+                </div>
+                
+                <div class="welcome-content">
+                    <p class="welcome-description">这个测试包含 <span id="total-questions">10</span> 道精选网络安全问题，帮助你了解自己的网络安全知识水平。</p>
+                    
+                    <div class="quiz-info">
+                        <div class="info-item">
+                            <i class="fas fa-trophy"></i>
+                            <div>
+                                <h3>满分</h3>
+                                <p>100分</p>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-gift"></i>
+                            <div>
+                                <h3>奖励</h3>
+                                <p>抽奖机会</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="quiz-instructions">
+                        <h3>测试说明</h3>
+                        <ul>
+                            <li>每道题有4个选项，只有1个正确答案</li>
+                            <li>选择答案后会立即显示正确答案和解析</li>
+                            <li>每道题10分，满分100分</li>
+                            <li>可以返回查看之前的题目，但已提交的答案不能更改</li>
+                            <li>分数达到100分可获取抽奖机会三次、80分可获取抽奖机会二次、60分可获取抽奖机会一次</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="prize-levels-container">
+                        <h3><i class="fas fa-award"></i> 抽奖机会</h3>
+                        <div class="prize-levels">
+                            <div class="prize-level">
+                                <div class="prize-score">100分</div>
+                                <div class="prize-chances"><i class="fas fa-gift"></i> × 3</div>
+                            </div>
+                            <div class="prize-level">
+                                <div class="prize-score">80分</div>
+                                <div class="prize-chances"><i class="fas fa-gift"></i> × 2</div>
+                            </div>
+                            <div class="prize-level">
+                                <div class="prize-score">60分</div>
+                                <div class="prize-chances"><i class="fas fa-gift"></i> × 1</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 在 prize-levels-container 下方添加奖项展示 -->
+                    <div class="prize-categories">
+                        <h3><i class="fas fa-medal"></i> 奖项设置</h3>
+                        <div class="prize-cards">
+                            <div class="prize-card special">
+                                <div class="prize-icon">
+                                    <i class="fas fa-crown"></i>
+                                </div>
+                                <div class="prize-name">特等奖</div>
+                                <div class="prize-ribbon"></div>
+                            </div>
+                            <div class="prize-card first">
+                                <div class="prize-icon">
+                                    <i class="fas fa-trophy"></i>
+                                </div>
+                                <div class="prize-name">一等奖</div>
+                                <div class="prize-ribbon"></div>
+                            </div>
+                            <div class="prize-card second">
+                                <div class="prize-icon">
+                                    <i class="fas fa-medal"></i>
+                                </div>
+                                <div class="prize-name">二等奖</div>
+                                <div class="prize-ribbon"></div>
+                            </div>
+                            <div class="prize-card third">
+                                <div class="prize-icon">
+                                    <i class="fas fa-award"></i>
+                                </div>
+                                <div class="prize-name">三等奖</div>
+                                <div class="prize-ribbon"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button id="start-quiz-btn" class="btn primary-btn" onclick="startQuiz()">
+                    <i class="fas fa-play"></i> 开始测试
+                </button>
+            </div>
+            
+            <!-- 测试内容 -->
+            <div id="quiz-content" class="hidden">
+                <!-- 顶部进度和得分区域 -->
+                <div class="quiz-header">
+                    <div id="progress-container">
+                        <div id="progress-bar">
+                            <div id="progress-fill"></div>
+                        </div>
+                        <div id="progress-text">题目 <span id="current-question">1</span>/10</div>
+                    </div>
+                    <div id="score-display">
+                        当前得分: <span id="current-score">0</span>
+                    </div>
+                </div>
+
+                <!-- 题目区域 -->
+                <div id="question-container">
+                    <h2 id="question-text">题目加载中...</h2>
+                    <div id="options-container">
+                        <!-- 选项将通过JavaScript动态生成 -->
+                    </div>
+                </div>
+
+                <!-- 固定在底部的操作按钮区域 -->
+                <div class="action-buttons">
+                    <div class="left-btn">
+                        <button id="prev-btn" class="btn secondary-btn" disabled>
+                            <i class="fas fa-arrow-left"></i> 上一题
+                        </button>
+                    </div>
+                    <div class="right-btn">
+                        <button id="next-btn" class="btn primary-btn" disabled>
+                            下一题 <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 反馈区域 -->
+                <div id="feedback-container" class="hidden">
+                    <div id="feedback-header">
+                        <span id="feedback-icon"></span>
+                        <h3 id="feedback-text"></h3>
+                    </div>
+                    <div id="explanation"></div>
+                </div>
+
+                <!-- 结果区域 -->
+                <div id="results-container" class="hidden">
+                    <h2>测试完成！</h2>
+                    <div class="final-score-container">
+                        <div class="score-circle">
+                            <div class="score-number">
+                                <span id="final-score">0</span>
+                                <span class="score-total">/100</span>
+                            </div>
+                            <div class="score-label">总分</div>
+                        </div>
+                        <div class="score-details">
+                            <div id="score-text" class="score-evaluation"></div>
+                            <div id="results-summary" class="score-summary"></div>
+                        </div>
+                    </div>
+                    <div id="results-details" class="results-breakdown"></div>
+                    <div class="results-actions">
+                        <button id="restart-btn" class="btn primary-btn">
+                            <i class="fas fa-redo"></i> 重新测试
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <i class="fas fa-shield-alt"></i>
+                <span>网络安全知识测试</span>
+            </div>
+            <p class="copyright">&copy; 2025 网络安全知识测试</p>
+        </div>
+    </footer>
+
+    <script src="js/questions.js"></script>
+    <script src="js/quiz.js"></script>
+</body>
+</html> 
